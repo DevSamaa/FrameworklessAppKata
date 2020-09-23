@@ -33,20 +33,16 @@ namespace FrameworklessAppKata
                 if (context.Request.HttpMethod == "GET")
                 {
                     var rawURL = context.Request.RawUrl;
-                    var showMessage = "";
+                    var message = "";
                     if (rawURL == "/list")
                     {
-                        showMessage =string.Join(",", userNames);
+                        message =string.Join(",", userNames);
                     }
                     else
                     {
-                        showMessage = GetRequestMessage(userNames); 
+                        message = GetRequestMessage(userNames); 
                     }
-                    
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(showMessage);
-                    context.Response.ContentLength64 = buffer.Length;
-                    context.Response.OutputStream.Write(buffer,0, buffer.Length);  // forces send of response
-                    //This is how you respond to your friend 
+                    SendResponse(message,context);
                 }
                 
                 if (context.Request.HttpMethod == "POST")
@@ -56,18 +52,15 @@ namespace FrameworklessAppKata
                     {
                         context.Response.StatusCode = (int) HttpStatusCode.Conflict;
                         //TODO display a message with the correct issue "username already exists"
-                        
-                        // var buffer = System.Text.Encoding.UTF8.GetBytes(showMessage);
-                        // context.Response.ContentLength64 = buffer.Length;
-                        // context.Response.OutputStream.Write(buffer,0, buffer.Length);  // forces send of response
+
+                        var message = "This username already exists.";
+                        SendResponse(message,context);
                     }
                     else
                     {
                         userNames.Add(bodyString);
                     }
-                    //check whether the "bodyString" already exists (userNames)
-                    //if it's already inside userNames, don't add it +return a statuscode that indicates what is happening.
-                    //otherwise:
+                   
                 }
 
                 if (context.Request.HttpMethod =="PUT")
@@ -114,39 +107,22 @@ namespace FrameworklessAppKata
             return $"Hello {placeholder} {DateTime.Now}";
         }
 
-        private static string GetStringFromStream(HttpListenerContext context)
+        private static void SendResponse(string message, HttpListenerContext context)
         {
-            var body = context.Request.InputStream; 
-            var length = context.Request.ContentLength64;
-            var bodyBytes = new byte[length]; 
-            int n = body.Read(bodyBytes, 0, (int)length); 
-            body.Close();
-            return Encoding.Default.GetString(bodyBytes);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(message);
+            context.Response.ContentLength64 = buffer.Length;
+            context.Response.OutputStream.Write(buffer,0, buffer.Length);
         }
         
         private static string GetStringFromStream2(HttpListenerContext context)
         {
-            StreamReader stream = new StreamReader(context.Request.InputStream);
+            var stream = new StreamReader(context.Request.InputStream);
             return stream.ReadToEnd();
         }
         
         
     }
 }
-
-
-//This will display the thing you type in the URL bar http://localhost:8080/?name=SANDYisHere!
-// var incomingName = context.Request.QueryString;
-// var buffer = System.Text.Encoding.UTF8.GetBytes($"Hello {incomingName["name"]} {DateTime.Now}");
-
-//var buffer = System.Text.Encoding.UTF8.GetBytes($"Hello Bob and {incomingBodyString} {DateTime.Now}");
-//  128 64 32 16     8 4 2 1
-// 0111 1000, 8 bit = 1 byte
-// buffer = [1001111,10001111,10001111,10001111,10001111]
-
-// var buffer = System.Text.Encoding.UTF8.GetBytes($"Hello Bob and {userNames[0]} {DateTime.Now}");
-// buffer = [56,76,34,23,54] the numbers are the ascii values of letters, they are probably stored in binary
-
 
 //TODO figure out how to modularize the methods, how to make your code more testable
 //you probably have to run your whole program and write a test that sends GET and POST requests to localhost.
