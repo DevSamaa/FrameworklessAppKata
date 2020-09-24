@@ -36,7 +36,7 @@ namespace FrameworklessAppTests
 
             //assert
             Assert.Equal(HttpStatusCode.OK,getResponse.StatusCode);
-            
+
         }
     }
 }

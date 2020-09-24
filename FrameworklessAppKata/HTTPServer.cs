@@ -28,7 +28,7 @@ namespace FrameworklessAppKata
         public void Run(CancellationTokenSource tokenSource)
         {
             var token = tokenSource.Token;
-            var task = Task.Run(() =>
+            Task.Run(() =>
             {
               var userNames = new List<string>();
             userNames.Add("Bob");
@@ -101,7 +101,7 @@ namespace FrameworklessAppKata
             Console.WriteLine($" new thread is going to stop the server {DateTime.Now.ToString("hh:MM:ss:fff")}");
             _server.Stop();  // never reached... 
                    
-            }, tokenSource.Token); 
+            }, tokenSource.Token).Wait();  
             
             
         }
