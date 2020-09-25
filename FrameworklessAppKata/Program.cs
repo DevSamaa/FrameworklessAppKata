@@ -14,12 +14,8 @@ namespace FrameworklessAppKata
         static void Main(string[] args)
         {
                var httpServer = new HTTPServer();
-               httpServer.StartServer();
-               
-               var tokenSource = new CancellationTokenSource();
-               // var ct = tokenSource.Token;
-
-               httpServer.Run(tokenSource);
+               var tuple = httpServer.Run();
+               tuple.Item2.Wait();
         }
     }
 }
