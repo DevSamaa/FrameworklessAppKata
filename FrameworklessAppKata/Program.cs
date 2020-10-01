@@ -20,10 +20,7 @@ namespace FrameworklessAppKata
     }
 }
 
-//TODO figure out how to modularize the methods, how to make your code more testable
-//you probably have to run your whole program and write a test that sends GET and POST requests to localhost.
 
-//Notes: the goal is to get Run() to start the cancelable task and to have another method that is able to cancel the task.
-//look up cancellable tasks C#
-//just testing
-//another test
+
+//Next step: Get my code to be incorporate into a Docker image that has .NET
+//Docker image with .NET

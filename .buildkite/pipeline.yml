@@ -1,6 +1,6 @@
 steps:
   - label: 'test step'
     command:
-      - echo test
+      - dotnet test
     agents:
      queue: fma-dev
