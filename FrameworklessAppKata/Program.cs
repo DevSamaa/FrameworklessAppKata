@@ -26,3 +26,4 @@ namespace FrameworklessAppKata
 //Notes: the goal is to get Run() to start the cancelable task and to have another method that is able to cancel the task.
 //look up cancellable tasks C#
 //just testing
+//another test
