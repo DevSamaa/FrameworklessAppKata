@@ -1,12 +1,7 @@
 steps:
-  - label: 'build docker image'
+  - label: 'build docker image and run it'
     command:
       - docker build -t frameworkless-app-image .
+      - docker run --name frameworkless-app-container frameworkless-app-image
     agents:
      queue: fma-dev
-     
-  - label: 'run container and execute unit test'
-      command:
-        - docker run --name frameworkless-app-container frameworkless-app-image
-      agents:
-        queue: fma-dev   
