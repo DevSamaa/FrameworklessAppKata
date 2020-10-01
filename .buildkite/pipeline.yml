@@ -1,6 +1,12 @@
 steps:
-  - label: 'test step'
+  - label: 'build docker image'
     command:
-      - dotnet test
+      - docker build -t frameworkless-app-image .
     agents:
      queue: fma-dev
+     
+  - label: 'run container and execute unit test'
+      command:
+        - docker run --name frameworkless-app-container frameworkless-app-image
+      agents:
+        queue: fma-dev   
