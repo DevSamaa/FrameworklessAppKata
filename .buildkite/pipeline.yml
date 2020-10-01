@@ -1,0 +1,6 @@
+steps:
+  - label: 'test step'
+    command:
+      - echo test
+    agents:
+     queue: fma-dev
