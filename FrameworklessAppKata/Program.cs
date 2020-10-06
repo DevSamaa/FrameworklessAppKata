@@ -21,6 +21,5 @@ namespace FrameworklessAppKata
 }
 
 
-
-//Next step: Get my code to be incorporate into a Docker image that has .NET
-//Docker image with .NET
+//NExt step: Break the test, git push, see if the test in buildkite is still passing or not. Hopefully it should break!
+// If it doesn't break we need to do something else!
