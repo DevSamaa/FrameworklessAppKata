@@ -4,11 +4,11 @@ steps:
       - docker build -f Dockerfile-Test -t frameworkless-app-test-image .
       - docker run --name frameworkless-app-container frameworkless-app-test-image
     agents:
-     queue: fma-dev
+     queue: katherine-lab
   - label: 'build docker image and publishing it to ECR'
     command:
       - docker build -f Dockerfile-Run -t 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app .
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com
       - docker push 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app
     agents:
-      queue: fma-dev
+      queue: katherine-lab
