@@ -16,6 +16,7 @@ namespace FrameworklessAppKata
                var httpServer = new HTTPServer();
                var tuple = httpServer.Run();
                tuple.Item2.Wait();
+               
         }
     }
 }
