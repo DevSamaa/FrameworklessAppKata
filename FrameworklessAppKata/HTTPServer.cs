@@ -19,7 +19,9 @@ namespace FrameworklessAppKata
      
         public Tuple<CancellationTokenSource, Task>  Run()
         {
-            _server.Prefixes.Add("http://localhost:8080/");
+            // _server.Prefixes.Add("http://localhost:8080/");
+            _server.Prefixes.Add("http://*:8080/");
+
             //8080 can be changed to another number like 5050
             //house example: localhost is my house,8080 is my door, if a friend wants to talk to me they have to come to that door!
             

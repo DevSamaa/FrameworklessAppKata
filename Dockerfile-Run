@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
 WORKDIR /app
 
@@ -7,10 +7,12 @@ COPY . .
 RUN dotnet build
 
 
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1-alpine
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 
 WORKDIR /app
 
 COPY --from=build /app/FrameworklessAppKata/bin/Debug/netcoreapp3.1/ .
+
+EXPOSE 8080
 
 ENTRYPOINT ["dotnet","FrameworklessAppKata.dll"]
