@@ -34,7 +34,7 @@ namespace FrameworklessAppKata
             var task = Task.Run(() =>
             {
                   var userNames = new List<string>();
-                  userNames.Add("Bobby");
+                  userNames.Add("Bobby2");
                   Console.WriteLine($" new thread is going into the loop {DateTime.Now.ToString("hh:MM:ss:fff")}");
 
                     while (!token.IsCancellationRequested)
