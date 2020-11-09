@@ -31,19 +31,17 @@ namespace FrameworklessAppKata
             var task = Task.Run(() =>
             {
                   var userNames = new List<string>();
-                  userNames.Add("Bobby333");
-                  Console.WriteLine($" new thread is going into the loop {DateTime.Now.ToString("hh:MM:ss:fff")}");
+                  userNames.Add("Bob");
+                  // Console.WriteLine($" new thread is going into the loop {DateTime.Now.ToString("hh:MM:ss:fff")}");
 
                     while (!token.IsCancellationRequested)
                     {
-                        Console.WriteLine($" new thread is waiting for a request {DateTime.Now.ToString("hh:MM:ss:fff")}");
-
+                        // Console.WriteLine($" new thread is waiting for a request {DateTime.Now:hh:MM:ss:fff}");
                         var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
-                        Console.WriteLine($" new thread gets a request {DateTime.Now.ToString("hh:MM:ss:fff")}");
-                        Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
+                        // Console.WriteLine($" new thread gets a request {DateTime.Now:hh:MM:ss:fff}");
+                        // Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
-                      
                         switch (context.Request.HttpMethod)
                         {
                             case "GET":
@@ -54,51 +52,23 @@ namespace FrameworklessAppKata
                                 var postRequest = new PostRequest();
                                 postRequest.Run(context, userNames);
                                 break;
+                            case "PUT":
+                                var putRequest = new PutRequest();
+                                putRequest.Run(context, userNames);
+                                break;
+                            case "DELETE":
+                                var deleteRequest = new DeleteRequest();
+                                deleteRequest.Run(context, userNames);
+                                break;
                         }
                         
-
-                        if (context.Request.HttpMethod =="PUT")
-                        {
-                            //what I need to change
-                            var oldEntry=context.Request.RawUrl.Substring(1);
-
-                            //what I want to change it to
-                            var newEntry = GetStringFromStream(context);
-                            
-                            //find Samaa in the list and update it to "bodyString"
-                            var indexOfOldEntry = userNames.IndexOf(oldEntry);
-                            userNames[indexOfOldEntry] = newEntry;
-                        }
-
-                        if (context.Request.HttpMethod =="DELETE")
-                        { 
-                            var rawURL=context.Request.RawUrl;
-                            var name = rawURL.Substring(1);
-                           
-                            if (userNames.Contains(name)&& name !="Bob")
-                            {
-                                userNames.Remove(name);
-                            }
-                            else
-                            {
-                                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                            }
-                        }
                         context.Response.OutputStream.Close(); 
                     }
-                    Console.WriteLine($" new thread is going to stop the server {DateTime.Now.ToString("hh:MM:ss:fff")}");
+                    // Console.WriteLine($" new thread is going to stop the server {DateTime.Now.ToString("hh:MM:ss:fff")}");
                     _server.Stop();  
-                           
+                    
             }, tokenSource.Token);
-
             return new Tuple<CancellationTokenSource, Task>(tokenSource,task);
-        }
-        
-        
-        private string GetStringFromStream(HttpListenerContext context)
-        {
-            var stream = new StreamReader(context.Request.InputStream);
-            return stream.ReadToEnd();
         }
          
     }
