@@ -19,19 +19,29 @@ namespace FrameworklessAppTests
             var httpServer = new HTTPServer();
             
             //act
-            Console.WriteLine($"main thread is starting a new thread {DateTime.Now.ToString("hh:MM:ss:fff")}");
             var tuple = httpServer.Run();
-            
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:8080");
-            Console.WriteLine($" main thread sent an http request {DateTime.Now.ToString("hh:MM:ss:fff")}");
-            var getResponse = await httpClient.GetAsync("");
+            var postResponseTask1 =  httpClient.PostAsync("", new StringContent("samaa"));
+            var postResponseTask2 =  httpClient.PostAsync("", new StringContent("sandy"));
+            var postResponse1 = await postResponseTask1;
+            var postResponse2 = await postResponseTask2; 
 
-            Console.WriteLine($" main thread is going to send a cancel signal {DateTime.Now.ToString("hh:MM:ss:fff")}");
+            Assert.Equal(HttpStatusCode.OK,postResponse1.StatusCode);
+            Assert.Equal(HttpStatusCode.OK,postResponse2.StatusCode);
+
+
+            var getResponse = await httpClient.GetAsync("");
+            Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+            var stringContainsSamaa = await getResponse.Content.ReadAsStringAsync();
+            Assert.Contains("samaa", stringContainsSamaa);
+            Assert.Contains("sandy", stringContainsSamaa);
+
+
             tuple.Item1.Cancel();
 
             //assert
-            Assert.Equal(HttpStatusCode.OK,getResponse.StatusCode);
+
         }
         
         
