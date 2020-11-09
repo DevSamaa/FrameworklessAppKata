@@ -13,35 +13,30 @@ namespace FrameworklessAppTests
     {
 
         [Fact]
-        public async Task HttpServerShouldGetRequest()
+        public async Task HttpServerShouldPostAndGet()
         {
             //arrange
             var httpServer = new HTTPServer();
-            
-            //act
+
+            //act & assert
             var tuple = httpServer.Run();
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:8080");
-            var postResponseTask1 =  httpClient.PostAsync("", new StringContent("samaa"));
-            var postResponseTask2 =  httpClient.PostAsync("", new StringContent("sandy"));
-            var postResponse1 = await postResponseTask1;
-            var postResponse2 = await postResponseTask2; 
 
+            httpClient.BaseAddress = new Uri("http://localhost:8080");
+            
+            var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
+            var postResponse2 =  await httpClient.PostAsync("", new StringContent("sandy"));
             Assert.Equal(HttpStatusCode.OK,postResponse1.StatusCode);
             Assert.Equal(HttpStatusCode.OK,postResponse2.StatusCode);
 
-
             var getResponse = await httpClient.GetAsync("");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
-            var stringContainsSamaa = await getResponse.Content.ReadAsStringAsync();
-            Assert.Contains("samaa", stringContainsSamaa);
-            Assert.Contains("sandy", stringContainsSamaa);
-
+            var returnedString = await getResponse.Content.ReadAsStringAsync();
+            Assert.Contains("samaa", returnedString);
+            Assert.Contains("sandy", returnedString);
 
             tuple.Item1.Cancel();
-
             //assert
-
         }
         
         

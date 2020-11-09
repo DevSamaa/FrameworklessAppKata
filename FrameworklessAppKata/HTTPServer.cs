@@ -19,11 +19,8 @@ namespace FrameworklessAppKata
      
         public Tuple<CancellationTokenSource, Task>  Run()
         {
-            // _server.Prefixes.Add("http://localhost:8080/");
             _server.Prefixes.Add("http://*:8080/");
-
-            //8080 can be changed to another number like 5050
-            //house example: localhost is my house,8080 is my door, if a friend wants to talk to me they have to come to that door!
+            //8080 can be changed to another number like 5050 -->house example: localhost is my house,8080 is my door, if a friend wants to talk to me they have to come to that door!
             
             _server.Start();
             //in the previous step you were setting up your house + door, now you're actually listening...waiting!
@@ -46,12 +43,13 @@ namespace FrameworklessAppKata
                         Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
-                        if (context.Request.HttpMethod == "GET")
-                        { 
-                            var rawURL = context.Request.RawUrl;
-                            var message = GetResponseMessage(rawURL, userNames);
-                            SendResponse(message, context);
-                            Console.WriteLine($" new thread sends a response {DateTime.Now.ToString("hh:MM:ss:fff")}");
+                      
+                        switch (context.Request.HttpMethod)
+                        {
+                            case "GET":
+                                var getRequest = new GetRequest();
+                                getRequest.Run(context, userNames);
+                                break;
                         }
                         
                         if (context.Request.HttpMethod == "POST")
@@ -71,9 +69,6 @@ namespace FrameworklessAppKata
 
                         if (context.Request.HttpMethod =="PUT")
                         {
-                            // localhost:8080/Samaaaa
-                            // body: Samaa
-                            
                             //what I need to change
                             var oldEntry=context.Request.RawUrl.Substring(1);
 
@@ -102,7 +97,7 @@ namespace FrameworklessAppKata
                         context.Response.OutputStream.Close(); 
                     }
                     Console.WriteLine($" new thread is going to stop the server {DateTime.Now.ToString("hh:MM:ss:fff")}");
-                    _server.Stop();  // never reached... 
+                    _server.Stop();  
                            
             }, tokenSource.Token);
 
@@ -110,20 +105,20 @@ namespace FrameworklessAppKata
         }
 
         
-        private string GetResponseMessage(string rawURL, List<string> userNames)
-        {
-            var message = "";
-            if (rawURL == "/list")
-            {
-                message =string.Join(",", userNames);
-            }
-            else
-            {
-                var placeholder = string.Join(",",userNames);
-                message = $"Hello {placeholder} {DateTime.Now}";
-            }
-            return message;
-        }
+        // private string GetResponseMessage(string rawURL, List<string> userNames)
+        // {
+        //     var message = "";
+        //     if (rawURL == "/list")
+        //     {
+        //         message =string.Join(",", userNames);
+        //     }
+        //     else
+        //     {
+        //         var placeholder = string.Join(",",userNames);
+        //         message = $"Hello {placeholder} {DateTime.Now}";
+        //     }
+        //     return message;
+        // }
         
         private void SendResponse(string message, HttpListenerContext context)
         {
