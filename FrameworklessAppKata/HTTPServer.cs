@@ -50,22 +50,12 @@ namespace FrameworklessAppKata
                                 var getRequest = new GetRequest();
                                 getRequest.Run(context, userNames);
                                 break;
+                            case "POST":
+                                var postRequest = new PostRequest();
+                                postRequest.Run(context, userNames);
+                                break;
                         }
                         
-                        if (context.Request.HttpMethod == "POST")
-                        {
-                            var bodyString = GetStringFromStream(context);
-                            if (userNames.Contains(bodyString))
-                            {
-                                context.Response.StatusCode = (int) HttpStatusCode.Conflict;
-                                var message = "This username already exists.";
-                                SendResponse(message,context);
-                            }
-                            else
-                            {
-                                userNames.Add(bodyString);
-                            }
-                        }
 
                         if (context.Request.HttpMethod =="PUT")
                         {
@@ -103,29 +93,7 @@ namespace FrameworklessAppKata
 
             return new Tuple<CancellationTokenSource, Task>(tokenSource,task);
         }
-
         
-        // private string GetResponseMessage(string rawURL, List<string> userNames)
-        // {
-        //     var message = "";
-        //     if (rawURL == "/list")
-        //     {
-        //         message =string.Join(",", userNames);
-        //     }
-        //     else
-        //     {
-        //         var placeholder = string.Join(",",userNames);
-        //         message = $"Hello {placeholder} {DateTime.Now}";
-        //     }
-        //     return message;
-        // }
-        
-        private void SendResponse(string message, HttpListenerContext context)
-        {
-            var buffer = System.Text.Encoding.UTF8.GetBytes(message);
-            context.Response.ContentLength64 = buffer.Length;
-            context.Response.OutputStream.Write(buffer,0, buffer.Length);
-        }
         
         private string GetStringFromStream(HttpListenerContext context)
         {
