@@ -7,8 +7,8 @@ namespace FrameworklessAppKata
     {
         public void Run(HttpListenerContext context, List<string> userNames)
         {
-            var rawURL=context.Request.RawUrl;
-            var name = rawURL.Substring(1);
+            var rawUrl=context.Request.RawUrl;
+            var name = rawUrl.Substring(1);
                            
             if (userNames.Contains(name)&& name !="Bob")
             {

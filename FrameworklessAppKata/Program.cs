@@ -13,15 +13,10 @@ namespace FrameworklessAppKata
     {
         static void Main(string[] args)
         {
-               var httpServer = new HTTPServer();
+               var httpServer = new HTTPApp();
                var tuple = httpServer.Run();
                tuple.Item2.Wait();
                
         }
     }
 }
-
-
-//NExt step: Break the test, git push, see if the test in buildkite is still passing or not. Hopefully it should break!
-// If it doesn't break we need to do something else!
-//you shall pass

@@ -6,14 +6,20 @@ namespace FrameworklessAppKata
 {
     public class PostRequest
     {
+        private readonly ResponseHelper _responseHelper;
+
+        public PostRequest(ResponseHelper responseHelper)
+        {
+            _responseHelper = responseHelper;
+        }
         public void Run(HttpListenerContext context, List<string> userNames)
         {
-            var bodyString = GetStringFromStream(context);
+            var bodyString = new StreamReader(context.Request.InputStream).ReadToEnd();
             if (userNames.Contains(bodyString))
             {
                 context.Response.StatusCode = (int) HttpStatusCode.Conflict;
                 var message = "This username already exists.";
-                SendResponse(message,context);
+                _responseHelper.SendResponse(message, context);
             }
             else
             {
@@ -21,18 +27,5 @@ namespace FrameworklessAppKata
             }
         }
         
-        //The methods below are duplicates, figure out what to do with them.
-        private void SendResponse(string message, HttpListenerContext context)
-        {
-            var buffer = System.Text.Encoding.UTF8.GetBytes(message);
-            context.Response.ContentLength64 = buffer.Length;
-            context.Response.OutputStream.Write(buffer,0, buffer.Length);
-        }
-        
-        private string GetStringFromStream(HttpListenerContext context)
-        {
-            var stream = new StreamReader(context.Request.InputStream);
-            return stream.ReadToEnd();
-        }
     }
 }

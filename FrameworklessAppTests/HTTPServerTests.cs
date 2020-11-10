@@ -13,10 +13,11 @@ namespace FrameworklessAppTests
     {
 
         [Fact]
+        [Trait("Category","End to End")]
         public async Task HttpServerShouldPostAndGet()
         {
             //arrange
-            var httpServer = new HTTPServer();
+            var httpServer = new HTTPApp();
         
             //act & assert
             var tuple = httpServer.Run();
@@ -38,24 +39,7 @@ namespace FrameworklessAppTests
             tuple.Item1.Cancel();
         }
 
-        //TODO figure out how to have more than 1 test in a file
-        [Fact]
-        public async Task PutRequestShouldChangeName()
-        {
-            var httpServer = new HTTPServer();
-            var tuple = httpServer.Run();
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:5050");
-            
-            var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
-            var putResponse = await httpClient.PutAsync("/samaa", new StringContent("newSamaa"));
-            var getResponse = await httpClient.GetAsync("");
-            var returnedString = await getResponse.Content.ReadAsStringAsync();
-            Assert.Contains("newSamaa", returnedString);
-
-            tuple.Item1.Cancel();
-
-        }
+        
         
         
     }

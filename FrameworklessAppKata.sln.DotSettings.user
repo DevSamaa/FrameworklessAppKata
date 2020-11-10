@@ -5,7 +5,5 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e9444b6e_002Db937_002D4adc_002D98b9_002D67732884cddf/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="ProgramTests" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::694B887E-EA08-4A0E-983B-894DFF6D6437::.NETCoreApp,Version=v3.1::FrameworklessAppTests.ProgramTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/Users/samaa.kanani/Desktop/Learning-DevOps/FrameworklessAppKata/FrameworklessAppTests" Presentation="&amp;lt;FrameworklessAppTests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

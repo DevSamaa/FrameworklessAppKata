@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace FrameworklessAppKata
 {
-    public class HTTPServer
+    public class HTTPApp
     {
-        public HttpListener _server;
+        private readonly HttpListener _server;
+        private readonly ResponseHelper _responseHelper;
 
-        public HTTPServer()
+        public HTTPApp()
         {
             _server = new HttpListener();
             // This is built into C#, it's a listener, it waits for an HTTP request
+            _responseHelper = new ResponseHelper();
         }
      
         public Tuple<CancellationTokenSource, Task>  Run()
@@ -39,17 +41,17 @@ namespace FrameworklessAppKata
                         // Console.WriteLine($" new thread is waiting for a request {DateTime.Now:hh:MM:ss:fff}");
                         var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
                         // Console.WriteLine($" new thread gets a request {DateTime.Now:hh:MM:ss:fff}");
-                        // Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
+                        Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
                         switch (context.Request.HttpMethod)
                         {
                             case "GET":
-                                var getRequest = new GetRequest();
+                                var getRequest = new GetRequest(_responseHelper);
                                 getRequest.Run(context, userNames);
                                 break;
                             case "POST":
-                                var postRequest = new PostRequest();
+                                var postRequest = new PostRequest(_responseHelper);
                                 postRequest.Run(context, userNames);
                                 break;
                             case "PUT":
