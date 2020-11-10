@@ -4,7 +4,7 @@ using System.Net;
 
 namespace FrameworklessAppKata
 {
-    public class PutRequest
+    public class PutRequest:IRequest
     {
         public void Run(HttpListenerContext context, List<string> userNames)
         {

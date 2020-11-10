@@ -4,7 +4,7 @@ using System.Net;
 
 namespace FrameworklessAppKata
 {
-    public class GetRequest
+    public class GetRequest:IRequest
     {
         private readonly ResponseHelper _responseHelper;
 

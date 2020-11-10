@@ -3,7 +3,7 @@ using System.Net;
 
 namespace FrameworklessAppKata
 {
-    public class DeleteRequest
+    public class DeleteRequest:IRequest
     {
         public void Run(HttpListenerContext context, List<string> userNames)
         {

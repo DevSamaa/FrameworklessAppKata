@@ -10,18 +10,17 @@ namespace FrameworklessAppKata
     public class HTTPApp
     {
         private readonly HttpListener _server;
-        private readonly ResponseHelper _responseHelper;
+       
 
         public HTTPApp()
         {
             _server = new HttpListener();
             // This is built into C#, it's a listener, it waits for an HTTP request
-            _responseHelper = new ResponseHelper();
         }
      
-        public Tuple<CancellationTokenSource, Task>  Run()
+        public Tuple<CancellationTokenSource, Task>  Run(string uri)
         {
-            _server.Prefixes.Add("http://*:8080/");
+            _server.Prefixes.Add(uri);
             //8080 can be changed to another number like 5050 -->house example: localhost is my house,8080 is my door, if a friend wants to talk to me they have to come to that door!
             
             _server.Start();
@@ -44,25 +43,27 @@ namespace FrameworklessAppKata
                         Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
-                        switch (context.Request.HttpMethod)
-                        {
-                            case "GET":
-                                var getRequest = new GetRequest(_responseHelper);
-                                getRequest.Run(context, userNames);
-                                break;
-                            case "POST":
-                                var postRequest = new PostRequest(_responseHelper);
-                                postRequest.Run(context, userNames);
-                                break;
-                            case "PUT":
-                                var putRequest = new PutRequest();
-                                putRequest.Run(context, userNames);
-                                break;
-                            case "DELETE":
-                                var deleteRequest = new DeleteRequest();
-                                deleteRequest.Run(context, userNames);
-                                break;
-                        }
+                        var requestRouter = new RequestRouter();
+                        requestRouter.Decide(context, userNames);
+                        // switch (context.Request.HttpMethod)
+                        // {
+                        //     case "GET":
+                        //         var getRequest = new GetRequest(_responseHelper);
+                        //         getRequest.Run(context, userNames);
+                        //         break;
+                        //     case "POST":
+                        //         var postRequest = new PostRequest(_responseHelper);
+                        //         postRequest.Run(context, userNames);
+                        //         break;
+                        //     case "PUT":
+                        //         var putRequest = new PutRequest();
+                        //         putRequest.Run(context, userNames);
+                        //         break;
+                        //     case "DELETE":
+                        //         var deleteRequest = new DeleteRequest();
+                        //         deleteRequest.Run(context, userNames);
+                        //         break;
+                        // }
                         
                         context.Response.OutputStream.Close(); 
                     }

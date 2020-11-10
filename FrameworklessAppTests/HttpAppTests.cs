@@ -9,7 +9,7 @@ using Xunit;
 
 namespace FrameworklessAppTests
 {
-    public class ProgramTests
+    public class HttpAppTests
     {
 
         [Fact]
@@ -17,13 +17,14 @@ namespace FrameworklessAppTests
         public async Task HttpServerShouldPostAndGet()
         {
             //arrange
-            var httpServer = new HTTPApp();
+            var httpApp = new HTTPApp();
         
             //act & assert
-            var tuple = httpServer.Run();
+            var tuple = httpApp.Run("http://*:8080/");
             var httpClient = new HttpClient();
         
-            httpClient.BaseAddress = new Uri("http://localhost:8080");
+            //TODO find out why this doesn't work with "http://*:8080/"
+            httpClient.BaseAddress = new Uri("http://localhost:8080/");
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
             var postResponse2 =  await httpClient.PostAsync("", new StringContent("sandy"));
@@ -39,8 +40,6 @@ namespace FrameworklessAppTests
             tuple.Item1.Cancel();
         }
 
-        
-        
         
     }
 }
