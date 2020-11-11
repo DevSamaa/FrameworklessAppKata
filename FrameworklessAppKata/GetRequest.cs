@@ -17,7 +17,6 @@ namespace FrameworklessAppKata
             var rawUrl = context.Request.RawUrl;
             var message = GetResponseMessage(rawUrl, userNames);
             _responseHelper.SendResponse(message, context);
-            Console.WriteLine($" new thread sends a response {DateTime.Now:hh:MM:ss:fff}");
         }
 
         private string GetResponseMessage(string rawUrl, List<string> userNames)

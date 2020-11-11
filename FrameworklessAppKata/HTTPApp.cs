@@ -33,41 +33,18 @@ namespace FrameworklessAppKata
             {
                   var userNames = new List<string>();
                   userNames.Add("Bob");
-                  // Console.WriteLine($" new thread is going into the loop {DateTime.Now.ToString("hh:MM:ss:fff")}");
 
                     while (!token.IsCancellationRequested)
                     {
-                        // Console.WriteLine($" new thread is waiting for a request {DateTime.Now:hh:MM:ss:fff}");
                         var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
-                        // Console.WriteLine($" new thread gets a request {DateTime.Now:hh:MM:ss:fff}");
                         Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
                         var requestRouter = new RequestRouter();
                         requestRouter.Decide(context, userNames);
-                        // switch (context.Request.HttpMethod)
-                        // {
-                        //     case "GET":
-                        //         var getRequest = new GetRequest(_responseHelper);
-                        //         getRequest.Run(context, userNames);
-                        //         break;
-                        //     case "POST":
-                        //         var postRequest = new PostRequest(_responseHelper);
-                        //         postRequest.Run(context, userNames);
-                        //         break;
-                        //     case "PUT":
-                        //         var putRequest = new PutRequest();
-                        //         putRequest.Run(context, userNames);
-                        //         break;
-                        //     case "DELETE":
-                        //         var deleteRequest = new DeleteRequest();
-                        //         deleteRequest.Run(context, userNames);
-                        //         break;
-                        // }
-                        
+
                         context.Response.OutputStream.Close(); 
                     }
-                    // Console.WriteLine($" new thread is going to stop the server {DateTime.Now.ToString("hh:MM:ss:fff")}");
                     _server.Stop();  
                     
             }, tokenSource.Token);

@@ -14,7 +14,7 @@ namespace FrameworklessAppTests
 
         [Fact]
         [Trait("Category","End to End")]
-        public async Task HttpServerShouldPostAndGet()
+        public async Task HttpServer_Should_PostAndGetRequests()
         {
             //arrange
             var httpApp = new HTTPApp();
@@ -36,6 +36,68 @@ namespace FrameworklessAppTests
             var returnedString = await getResponse.Content.ReadAsStringAsync();
             Assert.Contains("samaa", returnedString);
             Assert.Contains("sandy", returnedString);
+        
+            tuple.Item1.Cancel();
+        }
+
+        [Fact]
+        [Trait("Category","End to End")]
+        public async Task HttpServer_Should_PutNewInfoIntoUserNamesList()
+        {
+            //arrange
+            var httpApp = new HTTPApp();
+        
+            //act & assert
+            var tuple = httpApp.Run("http://*:8081/");
+            var httpClient = new HttpClient();
+        
+            httpClient.BaseAddress = new Uri("http://localhost:8081/");
+            
+            var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
+            Assert.Equal(HttpStatusCode.OK,postResponse1.StatusCode);
+
+            var putResponse = await httpClient.PutAsync("/samaa", new StringContent("newSamaa"));
+            var getResponse = await httpClient.GetAsync("");
+            Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+            
+            var returnedString = await getResponse.Content.ReadAsStringAsync();
+            Assert.Contains("newSamaa", returnedString);
+        
+            tuple.Item1.Cancel();
+        }
+        
+        [Fact]
+        [Trait("Category","End to End")]
+        public async Task HttpServer_Should_DeleteRequests()
+        {
+            //arrange
+            var httpApp = new HTTPApp();
+        
+            //act & assert
+            var tuple = httpApp.Run("http://*:8082/");
+            var httpClient = new HttpClient();
+        
+            httpClient.BaseAddress = new Uri("http://localhost:8082/");
+            
+            //post new name
+            var postResponse =  await httpClient.PostAsync("", new StringContent("samaa"));
+            Assert.Equal(HttpStatusCode.OK,postResponse.StatusCode);
+            
+            // check that new name is in list
+            var getResponse = await httpClient.GetAsync("");
+            var returnedString = await getResponse.Content.ReadAsStringAsync();    
+            Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+            Assert.Contains("samaa", returnedString);
+
+            //delete new name from list
+            var deleteResponse = await httpClient.DeleteAsync("/samaa");
+           Assert.Equal(HttpStatusCode.OK,deleteResponse.StatusCode );
+            
+           // check that new name is NOT in list
+           var getResponseAfterDeleting = await httpClient.GetAsync("");
+           var returnedStringAfterDeleting = await getResponseAfterDeleting.Content.ReadAsStringAsync();    
+           Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+           Assert.DoesNotContain("samaa", returnedStringAfterDeleting);
         
             tuple.Item1.Cancel();
         }
