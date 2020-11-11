@@ -37,7 +37,12 @@ namespace FrameworklessAppTests
             Assert.Contains("samaa", returnedString);
             Assert.Contains("sandy", returnedString);
         
-            tuple.Item1.Cancel();
+            // tuple.Task.Cancel();
+            tuple.CancellationTokenSource.Cancel();
+            httpClient.GetAsync("");
+            // await tuple.Item2;
+            await tuple.Task;
+            Console.WriteLine("test is done!");
         }
 
         [Fact]
@@ -63,7 +68,8 @@ namespace FrameworklessAppTests
             var returnedString = await getResponse.Content.ReadAsStringAsync();
             Assert.Contains("newSamaa", returnedString);
         
-            tuple.Item1.Cancel();
+            // tuple.Item1.Cancel();
+            tuple.CancellationTokenSource.Cancel();
         }
         
         [Fact]
@@ -99,7 +105,8 @@ namespace FrameworklessAppTests
            Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
            Assert.DoesNotContain("samaa", returnedStringAfterDeleting);
         
-            tuple.Item1.Cancel();
+            // tuple.Item1.Cancel();
+            tuple.CancellationTokenSource.Cancel();
         }
 
         

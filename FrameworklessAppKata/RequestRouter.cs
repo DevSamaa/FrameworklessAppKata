@@ -11,27 +11,26 @@ namespace FrameworklessAppKata
         {
             _responseHelper = new ResponseHelper();
         }
-        public void Decide(HttpListenerContext context, List<string> userNames)
+        public IRequest Decide(HttpListenerContext context, List<string> userNames)
         {
+            IRequest request = null;
             switch (context.Request.HttpMethod)
             {
                 case "GET":
-                    var getRequest = new GetRequest(_responseHelper);
-                    getRequest.Run(context, userNames);
+                    request = new GetRequest(_responseHelper);
                     break;
                 case "POST":
-                    var postRequest = new PostRequest(_responseHelper);
-                    postRequest.Run(context, userNames);
+                    request = new PostRequest(_responseHelper);
                     break;
                 case "PUT":
-                    var putRequest = new PutRequest();
-                    putRequest.Run(context, userNames);
+                    request = new PutRequest();
                     break;
                 case "DELETE":
-                    var deleteRequest = new DeleteRequest();
-                    deleteRequest.Run(context, userNames);
+                    request = new DeleteRequest();
                     break;
             }
+
+            return request;
         }
     }
 }

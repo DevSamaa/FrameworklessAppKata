@@ -14,10 +14,9 @@ namespace FrameworklessAppKata
         static void Main(string[] args)
         {
                var httpServer = new HTTPApp();
-               // var uri = "http://*:8080/";
-               var tuple = httpServer.Run("http://*:8080/");
-               tuple.Item2.Wait();
-               
+               var taskTerminator = httpServer.Run("http://*:8080/");
+               // tuple.Item2.Wait();
+               taskTerminator.Task.Wait();
         }
     }
 }
