@@ -34,7 +34,7 @@ namespace FrameworklessAppKata
             var cancellationToken = cancellationTokenSource.Token;
             
             var task = Task.Run(() =>
-            {
+                {
                   var userNames = new List<string>();
                   userNames.Add("Bob");
 
@@ -44,14 +44,15 @@ namespace FrameworklessAppKata
                         Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                         //This records which question your friend asked you, in this case, it was a GET request + the URL
 
-                       var request = _requestRouter.Decide(context, userNames);
-                       request.Run(context, userNames);
+                        var request = _requestRouter.Decide(context);
+                        request.Run(context, userNames);
                             
                         context.Response.OutputStream.Close(); 
                     }
                     _server.Stop();  
                     
-            }, cancellationTokenSource.Token);
+                }, cancellationTokenSource.Token);
+            
             return new TaskTerminator(){CancellationTokenSource = cancellationTokenSource, Task =task};
         }
          

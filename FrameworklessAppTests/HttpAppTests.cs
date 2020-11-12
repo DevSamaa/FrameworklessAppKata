@@ -20,7 +20,7 @@ namespace FrameworklessAppTests
             var httpApp = new HTTPApp();
         
             //act & assert
-            var tuple = httpApp.Run("http://*:8080/");
+            var taskTerminator = httpApp.Run("http://*:8080/");
             var httpClient = new HttpClient();
         
             httpClient.BaseAddress = new Uri("http://localhost:8080/");
@@ -36,12 +36,10 @@ namespace FrameworklessAppTests
             Assert.Contains("samaa", returnedString);
             Assert.Contains("sandy", returnedString);
         
-            // tuple.Task.Cancel();
-            tuple.CancellationTokenSource.Cancel();
-            httpClient.GetAsync("");
-            // await tuple.Item2;
-            await tuple.Task;
-            Console.WriteLine("test is done!");
+            taskTerminator.CancellationTokenSource.Cancel();
+            // httpClient.GetAsync("");
+            // await taskTerminator.Task;
+            // Console.WriteLine("test is done!");
         }
 
         [Fact]

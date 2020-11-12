@@ -11,7 +11,7 @@ namespace FrameworklessAppKata
         {
             _responseHelper = new ResponseHelper();
         }
-        public IRequest Decide(HttpListenerContext context, List<string> userNames)
+        public IRequest Decide(HttpListenerContext context)
         {
             IRequest request = null;
             switch (context.Request.HttpMethod)
