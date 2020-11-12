@@ -5,7 +5,13 @@ namespace FrameworklessAppKata
 {
     public class DeleteRequest:IRequest
     {
-        public void Run(HttpListenerContext context, List<string> userNames)
+        private readonly ResponseHelper _responseHelper;
+
+        public DeleteRequest(ResponseHelper responseHelper)
+        {
+            _responseHelper = responseHelper;
+        }
+        public void Process(HttpListenerContext context, List<string> userNames)
         {
             var rawUrl=context.Request.RawUrl;
             var name = rawUrl.Substring(1);
@@ -17,6 +23,8 @@ namespace FrameworklessAppKata
             else
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                var message = "This username cannot be deleted.";
+                _responseHelper.SendResponse(message, context);
             }
         }
     }

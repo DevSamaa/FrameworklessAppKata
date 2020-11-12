@@ -6,7 +6,7 @@ namespace FrameworklessAppKata
 {
     public class PutRequest:IRequest
     {
-        public void Run(HttpListenerContext context, List<string> userNames)
+        public void Process(HttpListenerContext context, List<string> userNames)
         {
             //what I need to change
             var oldEntry = context.Request.RawUrl.Substring(1);

@@ -26,7 +26,7 @@ namespace FrameworklessAppKata
                     request = new PutRequest();
                     break;
                 case "DELETE":
-                    request = new DeleteRequest();
+                    request = new DeleteRequest(_responseHelper);
                     break;
             }
 

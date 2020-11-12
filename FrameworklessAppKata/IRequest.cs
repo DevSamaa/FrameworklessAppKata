@@ -5,6 +5,6 @@ namespace FrameworklessAppKata
 {
     public interface IRequest
     {
-        public void Run(HttpListenerContext context, List<string> userNames);
+        public void Process(HttpListenerContext context, List<string> userNames);
     }
 }

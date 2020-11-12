@@ -12,7 +12,7 @@ namespace FrameworklessAppKata
         {
             _responseHelper = responseHelper;
         }
-        public void Run(HttpListenerContext context, List<string> userNames)
+        public void Process(HttpListenerContext context, List<string> userNames)
         {
             var bodyString = new StreamReader(context.Request.InputStream).ReadToEnd();
             if (userNames.Contains(bodyString))

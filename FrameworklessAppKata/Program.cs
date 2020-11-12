@@ -14,8 +14,7 @@ namespace FrameworklessAppKata
         static async Task Main(string[] args)
         {
                var httpServer = new HTTPApp();
-               var taskTerminator = httpServer.Run("http://*:8080/");
-               await taskTerminator.Task;
+               await httpServer.Run("http://*:8080/");
         }
     }
 }
