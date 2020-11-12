@@ -23,7 +23,6 @@ namespace FrameworklessAppTests
             var tuple = httpApp.Run("http://*:8080/");
             var httpClient = new HttpClient();
         
-            //TODO find out why this doesn't work with "http://*:8080/"
             httpClient.BaseAddress = new Uri("http://localhost:8080/");
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));

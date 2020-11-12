@@ -11,12 +11,11 @@ namespace FrameworklessAppKata
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
                var httpServer = new HTTPApp();
                var taskTerminator = httpServer.Run("http://*:8080/");
-               // tuple.Item2.Wait();
-               taskTerminator.Task.Wait();
+               await taskTerminator.Task;
         }
     }
 }
