@@ -5,11 +5,20 @@ steps:
       - docker run frameworkless-app-test-image
     agents:
      queue: katherine-lab
-  - wait   
+  - wait  
+#  command here that uses the template.yml(CF file, find template online) file to create a ECR repository
   - label: 'build docker image and publishing it to ECR'
     command:
       - docker build -f Dockerfile-Run -t 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app .
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com
       - docker push 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app
+    agents:
+      queue: katherine-lab
+  - wait
+  - label: 'Deploy with Jupiter'
+    command:
+      - kubectl apply -f Jupiter/deployment.yml -n training
+      - kubectl apply -f Jupiter/service.yml -n training
+      - kubectl apply -f Jupiter/ingress.yml -n training
     agents:
       queue: katherine-lab

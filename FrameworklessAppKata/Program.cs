@@ -16,5 +16,10 @@ namespace FrameworklessAppKata
                var httpServer = new HTTPApp();
                await httpServer.Run("http://*:8080/");
         }
+
+        public void PrintMessage()
+        {
+            Console.WriteLine("Thank you");
+        }
     }
 }

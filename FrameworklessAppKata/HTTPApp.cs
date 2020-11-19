@@ -38,7 +38,7 @@ namespace FrameworklessAppKata
             var task = Task.Run(() =>
                 {
                       var userNames = new List<string>();
-                      userNames.Add("Bob");
+                      userNames.Add("BobNEW");
                       
                         while (!cancellationToken.IsCancellationRequested)
                         {

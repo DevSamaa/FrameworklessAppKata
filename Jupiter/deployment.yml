@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "samaa-frameworkless-app-deployment"
+  namespace: "training"
+  labels:
+    app: "samaa-frameworkless-app"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "samaa-frameworkless-app"
+  template:
+    metadata:
+      labels:
+        app: "samaa-frameworkless-app"
+    spec:
+      containers:
+        - image: "741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app"
+          name: samaa-frameworkless-app
+          ports:
+            - containerPort: 8080
