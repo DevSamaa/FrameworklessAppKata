@@ -17,9 +17,8 @@ steps:
   - wait
   - label: 'Deploy with Jupiter'
     command:
-      - docker pull kubectl
       - kubectl apply -f Jupiter/deployment.yml -n training
       - kubectl apply -f Jupiter/service.yml -n training
       - kubectl apply -f Jupiter/ingress.yml -n training
     agents:
-      queue: katherine-lab
+      queue: europa-preprod-training
