@@ -38,7 +38,9 @@ namespace FrameworklessAppKata
             var task = Task.Run(() =>
                 {
                       var userNames = new List<string>();
-                      userNames.Add("BobNEW");
+                      var firstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME");
+                      
+                      userNames.Add(firstUser);
                       
                         while (!cancellationToken.IsCancellationRequested)
                         {
