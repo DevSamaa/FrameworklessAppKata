@@ -21,7 +21,12 @@ spec:
           name: samaa-frameworkless-app
           ports:
             - containerPort: 8080
-
+          env:
+            - name: SECRET_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: samaa-frameworkless-app-username
+                  key: user1
 ---
 apiVersion: v1
 kind: Service

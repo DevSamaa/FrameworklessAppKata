@@ -6,7 +6,6 @@ steps:
     agents:
      queue: katherine-lab
   - wait  
-#  command here that uses the template.yml(CF file, find template online) file to create a ECR repository
   - label: 'build docker image and publishing it to ECR'
     command:
       - docker build -f Dockerfile-Run -t 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app .
