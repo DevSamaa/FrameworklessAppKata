@@ -1,69 +1,83 @@
 ---
-apiVersion: apps/v1
-kind: Deployment
+kind: "Template"
+apiVersion: "v1"
 metadata:
-  name: "samaa-frameworkless-app-deployment"
-  namespace: "fma"
-  labels:
-    app: "samaa-frameworkless-app"
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
+  name: "Deployment"
+  annotations:
+    description: "Kubernetes Deployment Template"
+labels:
+  template: "Deployment"
+objects:
+
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: "samaa-frameworkless-app-deployment"
+    namespace: "fma"
+    labels:
       app: "samaa-frameworkless-app"
-  template:
-    metadata:
-      labels:
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
         app: "samaa-frameworkless-app"
-    spec:
-      containers:
-        - image: "741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app"
-          name: samaa-frameworkless-app
-          ports:
-            - containerPort: 8080
-          env:
-            - name: SECRET_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: samaa-frameworkless-app-username
-                  key: user1
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    prometheus.io/scrape: "true"
-  name: "samaa-frameworkless-app-service"
-  namespace: "fma"
-  labels:
-    app: "samaa-frameworkless-app"
-spec:
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    app: "samaa-frameworkless-app"    
+    template:
+      metadata:
+        labels:
+          app: "samaa-frameworkless-app"
+      spec:
+        containers:
+          - image: "741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app:$(tag)"
+            name: samaa-frameworkless-app
+            ports:
+              - containerPort: 8080
+            env:
+              - name: SECRET_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: samaa-frameworkless-app-username
+                    key: user1
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      prometheus.io/scrape: "true"
+    name: "samaa-frameworkless-app-service"
+    namespace: "fma"
+    labels:
+      app: "samaa-frameworkless-app"
+  spec:
+    ports:
+      - port: 80
+        targetPort: 8080
+    selector:
+      app: "samaa-frameworkless-app"    
       
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    "kubernetes.io/tls-acme": "true"
-  name: "samaa-frameworkless-app-ingress"
-  namespace: "fma"
-  labels:
-    app: "samaa-frameworkless-app"
-spec:
-  rules:
-    - host: "samaa-frameworkless-app.svc.platform.myobdev.com"
-      http:
-        paths:
-          - backend:
-              serviceName: "samaa-frameworkless-app-service"
-              servicePort: 80
-            path: /
-  tls:
-    - hosts:
-        - "samaa-frameworkless-app.svc.platform.myobdev.com"
-      secretName: "samaa-frameworkless-app-tls"      
+- apiVersion: networking.k8s.io/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      "kubernetes.io/tls-acme": "true"
+    name: "samaa-frameworkless-app-ingress"
+    namespace: "fma"
+    labels:
+      app: "samaa-frameworkless-app"
+  spec:
+    rules:
+      - host: "samaa-frameworkless-app.svc.platform.myobdev.com"
+        http:
+          paths:
+            - backend:
+                serviceName: "samaa-frameworkless-app-service"
+                servicePort: 80
+              path: /
+    tls:
+      - hosts:
+          - "samaa-frameworkless-app.svc.platform.myobdev.com"
+        secretName: "samaa-frameworkless-app-tls"  
+        
+parameters:
+  - name: "tag"
+    required: true
+    parameterType: "string"
