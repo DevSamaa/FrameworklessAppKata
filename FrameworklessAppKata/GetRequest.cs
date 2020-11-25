@@ -29,7 +29,7 @@ namespace FrameworklessAppKata
             else
             {
                 var placeholder = string.Join(",", userNames);
-                message = $"Hello {placeholder} {DateTime.Now}";
+                message = $"Hi {placeholder} {DateTime.Now}";
             }
 
             return message;
