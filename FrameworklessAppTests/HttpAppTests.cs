@@ -37,10 +37,6 @@ namespace FrameworklessAppTests
             Assert.Contains("sandy", returnedString);
         
             httpApp.CancellationTokenSource.Cancel();
-            // taskTerminator.CancellationTokenSource.Cancel();
-            // httpClient.GetAsync("");
-            // await taskTerminator.Task;
-            // Console.WriteLine("test is done!");
         }
 
         [Fact]

@@ -12,6 +12,7 @@ namespace FrameworklessAppKata
         private readonly HttpListener _server;
         private readonly RequestRouter _requestRouter;
         public readonly CancellationTokenSource CancellationTokenSource;
+        public static string FirstUser;
 
 
         public HTTPApp()
@@ -20,6 +21,7 @@ namespace FrameworklessAppKata
             // This is built into C#, it's a listener, it waits for an HTTP request
             _requestRouter = new RequestRouter();
             CancellationTokenSource = new CancellationTokenSource();
+            FirstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME");
         }
 
         public Task Run(string uri)
@@ -38,9 +40,7 @@ namespace FrameworklessAppKata
             var task = Task.Run(() =>
                 {
                       var userNames = new List<string>();
-                      var firstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME");
-                      
-                      userNames.Add(firstUser);
+                      userNames.Add(FirstUser);
                       
                         while (!cancellationToken.IsCancellationRequested)
                         {
