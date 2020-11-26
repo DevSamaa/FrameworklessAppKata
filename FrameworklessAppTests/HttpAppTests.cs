@@ -34,7 +34,7 @@ namespace FrameworklessAppTests
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
             var returnedString = await getResponse.Content.ReadAsStringAsync();
             Assert.Contains("samaa", returnedString);
-            Assert.Contains("sandy2", returnedString);
+            Assert.Contains("sandy", returnedString);
         
             httpApp.CancellationTokenSource.Cancel();
         }
