@@ -21,7 +21,12 @@ namespace FrameworklessAppKata
             // This is built into C#, it's a listener, it waits for an HTTP request
             _requestRouter = new RequestRouter();
             CancellationTokenSource = new CancellationTokenSource();
-            FirstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME");
+            FirstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME") ?? "DefaultBob";
+            
+            if (string.IsNullOrEmpty(FirstUser))
+            {
+                FirstUser = "DefaultBob";
+            }
         }
 
         public Task Run(string uri)
@@ -44,7 +49,9 @@ namespace FrameworklessAppKata
                       
                         while (!cancellationToken.IsCancellationRequested)
                         {
+                            Console.WriteLine("about to start");
                             var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
+                            Console.WriteLine("listening");
                             Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                             //This records which question your friend asked you, in this case, it was a GET request + the URL
                       
