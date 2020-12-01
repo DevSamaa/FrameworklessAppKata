@@ -16,15 +16,21 @@ namespace FrameworklessAppKata
         {
             var rawUrl=context.Request.RawUrl;
             var name = rawUrl.Substring(1);
-            
-            if (userNames.Contains(name)&& name !=HTTPApp.FirstUser)
+
+            if (name == HTTPApp.FirstUser)
+            {
+                context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
+                var message = "The power user cannot be deleted.";
+                _responseHelper.SendResponse(message, context);
+            }
+            else if (userNames.Contains(name))
             {
                 userNames.Remove(name);
             }
-            else
+            else 
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                var message = "This username cannot be deleted.";
+                var message = "This username cannot be found.";
                 _responseHelper.SendResponse(message, context);
             }
         }

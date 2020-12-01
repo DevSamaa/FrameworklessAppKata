@@ -14,10 +14,18 @@ namespace FrameworklessAppKata
             //what I want to change it to (body of request)
             var newEntry = new StreamReader(context.Request.InputStream).ReadToEnd();
 
-            //TODO IF incoming name is not on the list, add it, otherwise do the below!
             //find Samaa in the list and update it to "bodyString"
-            var indexOfOldEntry = userNames.IndexOf(oldEntry);
-            userNames[indexOfOldEntry] = newEntry;
+            if (userNames.Contains(oldEntry) == false)
+            {
+                userNames.Add(newEntry);
+                context.Response.StatusCode = (int) HttpStatusCode.Created;
+            }
+            else
+            {
+                var indexOfOldEntry = userNames.IndexOf(oldEntry);
+                userNames[indexOfOldEntry] = newEntry;
+            }
+           
         }
     }
 }

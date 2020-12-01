@@ -24,6 +24,7 @@ namespace FrameworklessAppKata
             else
             {
                 userNames.Add(bodyString);
+                context.Response.StatusCode = (int) HttpStatusCode.Created;
             }
         }
         
