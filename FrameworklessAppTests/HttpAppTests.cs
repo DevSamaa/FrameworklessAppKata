@@ -27,8 +27,8 @@ namespace FrameworklessAppTests
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
             var postResponse2 =  await httpClient.PostAsync("", new StringContent("sandy"));
-            Assert.Equal(HttpStatusCode.OK,postResponse1.StatusCode);
-            Assert.Equal(HttpStatusCode.OK,postResponse2.StatusCode);
+            Assert.Equal(HttpStatusCode.Created,postResponse1.StatusCode);
+            Assert.Equal(HttpStatusCode.Created,postResponse2.StatusCode);
         
             var getResponse = await httpClient.GetAsync("");
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
@@ -47,13 +47,13 @@ namespace FrameworklessAppTests
             var httpApp = new HTTPApp();
         
             //act & assert
-            var tuple = httpApp.Run("http://*:8081/");
+            var task = httpApp.Run("http://*:8081/");
             var httpClient = new HttpClient();
         
             httpClient.BaseAddress = new Uri("http://localhost:8081/");
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
-            Assert.Equal(HttpStatusCode.OK,postResponse1.StatusCode);
+            Assert.Equal(HttpStatusCode.Created,postResponse1.StatusCode);
 
             var putResponse = await httpClient.PutAsync("/samaa", new StringContent("newSamaa"));
             var getResponse = await httpClient.GetAsync("");
@@ -80,7 +80,7 @@ namespace FrameworklessAppTests
             
             //post new name
             var postResponse =  await httpClient.PostAsync("", new StringContent("samaa"));
-            Assert.Equal(HttpStatusCode.OK,postResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.Created,postResponse.StatusCode);
             
             // check that new name is in list
             var getResponse = await httpClient.GetAsync("");
