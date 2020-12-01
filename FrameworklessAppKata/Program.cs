@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace FrameworklessAppKata
 {
@@ -13,13 +6,9 @@ namespace FrameworklessAppKata
     {
         static async Task Main(string[] args)
         {
-               var httpServer = new HTTPApp();
-               await httpServer.Run("http://*:8080/");
+            var httpServer = new HTTPApp();
+            await httpServer.Run("http://*:8080/");
         }
-
-        public void PrintMessage()
-        {
-            Console.WriteLine("Thank you");
-        }
+        
     }
 }

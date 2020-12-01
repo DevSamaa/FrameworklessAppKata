@@ -21,8 +21,7 @@ namespace FrameworklessAppKata
             // This is built into C#, it's a listener, it waits for an HTTP request
             _requestRouter = new RequestRouter();
             CancellationTokenSource = new CancellationTokenSource();
-            FirstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME") ?? "DefaultBob";
-            
+            FirstUser = Environment.GetEnvironmentVariable("SECRET_USERNAME");
             if (string.IsNullOrEmpty(FirstUser))
             {
                 FirstUser = "DefaultBob";

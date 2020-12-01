@@ -9,7 +9,7 @@ RUN dotnet build
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 
-WORKDIR /app
+WORKDIR /app2
 
 COPY --from=build /app/FrameworklessAppKata/bin/Debug/netcoreapp3.1/ .
 
