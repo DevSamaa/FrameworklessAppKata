@@ -15,17 +15,23 @@ namespace FrameworklessAppKata
             var newEntry = new StreamReader(context.Request.InputStream).ReadToEnd();
 
             //find Samaa in the list and update it to "bodyString"
-            if (userNames.Contains(oldEntry) == false)
+            if (!userNames.Contains(oldEntry) && !userNames.Contains(newEntry))
             {
                 userNames.Add(newEntry);
                 context.Response.StatusCode = (int) HttpStatusCode.Created;
+            }
+            else if (userNames.Contains(newEntry))
+            {
+                context.Response.StatusCode = (int) HttpStatusCode.Conflict;
             }
             else
             {
                 var indexOfOldEntry = userNames.IndexOf(oldEntry);
                 userNames[indexOfOldEntry] = newEntry;
             }
-           
+            
+
+            
         }
     }
 }

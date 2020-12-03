@@ -48,9 +48,7 @@ namespace FrameworklessAppKata
                       
                         while (!cancellationToken.IsCancellationRequested)
                         {
-                            Console.WriteLine("about to start");
                             var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
-                            Console.WriteLine("listening");
                             Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                             //This records which question your friend asked you, in this case, it was a GET request + the URL
                       

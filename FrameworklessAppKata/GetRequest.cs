@@ -22,7 +22,7 @@ namespace FrameworklessAppKata
         private string GetResponseMessage(string rawUrl, List<string> userNames)
         {
             var message = "";
-            if (rawUrl == "/list")
+            if (rawUrl == "/users")
             {
                 message = string.Join(",", userNames);
             }
