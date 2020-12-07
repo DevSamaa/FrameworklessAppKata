@@ -51,10 +51,18 @@ namespace FrameworklessAppKata
                             var context = _server.GetContext();  // Wait for a type of HTTP request(example: GET, or POST). It's always just one method! This is like your friend asking you a question
                             Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
                             //This records which question your friend asked you, in this case, it was a GET request + the URL
-                      
-                            var request = _requestRouter.Decide(context);
-                            request.Process(context, userNames);
-                            context.Response.OutputStream.Close(); 
+
+                            var apiTokenIsValid = ApiTokenIsValid(context);
+                            if (apiTokenIsValid)
+                            {
+                                var request = _requestRouter.Decide(context);
+                                request.Process(context, userNames);
+                            }
+                            else
+                            {
+                                context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                            }
+                            context.Response.OutputStream.Close();
                         }
                         _server.Stop();
                     
@@ -62,7 +70,11 @@ namespace FrameworklessAppKata
             
             return task;
         }
-        
 
+
+        private bool ApiTokenIsValid(HttpListenerContext context)
+        {
+            return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SECRET_USERNAME")) && Environment.GetEnvironmentVariable("SECRET_USERNAME") == context.Request.Headers["API-token"];
+        }
     }
 }
