@@ -3,6 +3,7 @@ steps:
     command:
       - docker build -f Dockerfile-Test -t frameworkless-app-test-image .
       - docker run frameworkless-app-test-image
+      - docker run -e SECRET_USER="test-token" frameworkless-app-test-image
     agents:
      queue: katherine-lab
   - wait  

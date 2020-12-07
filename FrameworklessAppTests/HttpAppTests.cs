@@ -20,9 +20,9 @@ namespace FrameworklessAppTests
             var httpApp = new HTTPApp();
         
             //act & assert
-            var taskTerminator = httpApp.Run("http://*:8080/");
+            var task = httpApp.Run("http://*:8080/");
             var httpClient = new HttpClient();
-        
+            httpClient.DefaultRequestHeaders.Add("API-token","test-token");
             httpClient.BaseAddress = new Uri("http://localhost:8080/");
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
@@ -49,7 +49,7 @@ namespace FrameworklessAppTests
             //act & assert
             var task = httpApp.Run("http://*:8081/");
             var httpClient = new HttpClient();
-        
+            httpClient.DefaultRequestHeaders.Add("API-token","test-token");
             httpClient.BaseAddress = new Uri("http://localhost:8081/");
             
             var postResponse1 =  await httpClient.PostAsync("", new StringContent("samaa"));
@@ -75,7 +75,8 @@ namespace FrameworklessAppTests
             //act & assert
             var tuple = httpApp.Run("http://*:8082/");
             var httpClient = new HttpClient();
-        
+            
+            httpClient.DefaultRequestHeaders.Add("API-token","test-token");
             httpClient.BaseAddress = new Uri("http://localhost:8082/");
             
             //post new name
