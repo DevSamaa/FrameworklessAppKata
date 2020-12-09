@@ -27,7 +27,7 @@ objects:
           app: "samaa-frameworkless-app"
       spec:
         containers:
-          - image: "741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app:$(tag)"
+          - image: "741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app-automated:$(tag)"
             name: samaa-frameworkless-app
             ports:
               - containerPort: 8080
