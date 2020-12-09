@@ -74,7 +74,7 @@ namespace FrameworklessAppKata
 
         private bool ApiTokenIsValid(HttpListenerContext context)
         {
-            return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SECRET_USERNAME")) && Environment.GetEnvironmentVariable("SECRET_USERNAME") == context.Request.Headers["API-token"];
+            return !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("API-TOKEN-SECRET")) && Environment.GetEnvironmentVariable("API-TOKEN-SECRET") == context.Request.Headers["API-token"];
         }
     }
 }
