@@ -1,0 +1,23 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >
+  This is a template for automating the ECR repository creation.
+
+Resources:
+  MyRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: "samaa-frameworkless-app-automated"
+      RepositoryPolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: allow-kubes-read-only
+            Effect: Allow
+            Principal:
+              AWS:
+                - "arn:aws:iam::967276157215:root"
+            Action:
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"

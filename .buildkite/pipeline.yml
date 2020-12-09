@@ -5,15 +5,24 @@ steps:
       - docker run -e SECRET_USERNAME="test-token" frameworkless-app-test-image
     agents:
      queue: katherine-lab
-  - wait  
-  - label: 'build docker image and publishing it to ECR'
+  - wait
+  
+  - label: 'CF creates ECR repository'
     command:
-      - docker build -f Dockerfile-Run -t 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app:$BUILDKITE_BUILD_NUMBER .
-      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com
-      - docker push 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app:$BUILDKITE_BUILD_NUMBER
+      - aws cloudformation deploy --template-file CF/ECR.yml --stack-name "samaa-frameworkless-app-repo" --no-fail-on-empty-changeset
     agents:
       queue: katherine-lab
   - wait
+  
+  - label: 'build docker image and publishing it to ECR'
+    command:
+      - docker build -f Dockerfile-Run -t 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app-automated:$BUILDKITE_BUILD_NUMBER .
+      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com
+      - docker push 741922737521.dkr.ecr.ap-southeast-2.amazonaws.com/samaa-frameworkless-app-automated:$BUILDKITE_BUILD_NUMBER
+    agents:
+      queue: katherine-lab
+  - wait
+    
   - label: 'Deploy with Jupiter'
     command:
       - ./Jupiter/deploy.sh
