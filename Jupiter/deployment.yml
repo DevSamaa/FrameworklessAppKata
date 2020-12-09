@@ -38,10 +38,10 @@ objects:
                     name: samaa-frameworkless-app-username
                     key: user1
               - name: API-TOKEN-SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: samaa-frameworkless-app-api-token
-                      key: key1     
+                valueFrom:
+                  secretKeyRef:
+                    name: samaa-frameworkless-app-api-token
+                    key: key1     
 
 - apiVersion: v1
   kind: Service
