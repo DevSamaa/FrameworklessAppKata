@@ -34,7 +34,5 @@ namespace FrameworklessAppKata
 
             return message;
         }
-
-       
     }
 }
